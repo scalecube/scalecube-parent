@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.scalecube</groupId>
   <artifactId>scalecube-parent</artifactId>
@@ -23,6 +25,16 @@
     <developerConnection>scm:git:git@github.com:scalecube/scalecube-parent.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
   <prerequisites>
     <maven>3.0.3</maven>
   </prerequisites>
@@ -124,7 +136,7 @@
       </plugin>
     </plugins>
   </build>
-   <profiles>
+  <profiles>
     <profile>
       <id>release</id>
       <build>
@@ -177,5 +189,4 @@
       </build>
     </profile>
   </profiles>
-  
 </project>
