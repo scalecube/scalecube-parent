@@ -1,0 +1,15 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>io.scalecube</groupId>
+  <artifactId>scalecube-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>ScaleCube parent project</name>
+  <description>
+    ScaleCube is a lightweight decentralized cluster membership, failure detection, messaging and
+    gossip protocol library for the Java VM.
+  </description>
+  <inceptionYear>2015</inceptionYear>
+  <url>http://scalecube.io</url>
+  
+</project>
