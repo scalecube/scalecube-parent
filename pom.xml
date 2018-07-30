@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.scalecube</groupId>
   <artifactId>scalecube-parent-pom</artifactId>
@@ -46,6 +48,8 @@
     </developer>
   </developers>
   <properties>
+    <style-project.version>0.0.5-SNAPSHOT</style-project.version>
+    
     <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
     <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
@@ -75,6 +79,13 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>${maven-checkstyle-plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>io.scalecube</groupId>
+            <artifactId>scalecube-style</artifactId>
+            <version>${style-project.version}</version>
+          </dependency>
+        </dependencies>
         <executions>
           <execution>
             <id>checkstyle</id>
@@ -83,13 +94,13 @@
             </goals>
             <phase>validate</phase>
             <configuration>
-              <configLocation>checkstyle.xml</configLocation>
+              <configLocation>style/checkstyle.xml</configLocation>
+              <suppressionsLocation>style/checkstyle-suppression.xml</suppressionsLocation>
+              <suppressionsFileExpression>style/checkstyle.suppressions.file</suppressionsFileExpression>
               <consoleOutput>true</consoleOutput>
               <violationSeverity>warning</violationSeverity>
               <failsOnError>true</failsOnError>
               <maxAllowedViolations>0</maxAllowedViolations>
-              <suppressionsLocation>checkstyle-suppression.xml</suppressionsLocation>
-              <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
             </configuration>
           </execution>
         </executions>
@@ -215,4 +226,7 @@
       </build>
     </profile>
   </profiles>
+  <modules>
+    <module>scalecube-style</module>
+  </modules>
 </project>
