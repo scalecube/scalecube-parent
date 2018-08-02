@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.scalecube</groupId>
@@ -53,7 +52,7 @@
     <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
     <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
-    <maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
+    <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
     <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
@@ -69,14 +68,12 @@
     <mockito-junit-jupiter.version>2.17.0</mockito-junit-jupiter.version>
     <junit-jupiter.version>5.2.0</junit-jupiter.version>
     <reactor-test.version>3.1.8.RELEASE</reactor-test.version>
-    <gatling-charts-highcharts.version>2.3.1</gatling-charts-highcharts.version>
 
   </properties>
 
   <reporting>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>${maven-checkstyle-plugin.version}</version>
         <configuration>
@@ -88,124 +85,199 @@
     </plugins>
   </reporting>
   <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.7.0</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-          <optimize>true</optimize>
-        </configuration>
-      </plugin>
-      <!-- TBD: -->
-      <!-- <plugin> <artifactId>maven-pmd-plugin</artifactId> <version>${maven-pmd-plugin.version}</version> 
-        <executions> <execution> <goals> <goal>check</goal> </goals> </execution> 
-        </executions> </plugin> -->
-
-      <plugin>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${maven-checkstyle-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>checkstyle</id>
-            <goals>
-              <goal>check</goal>
-              <goal>checkstyle-aggregate</goal>
-            </goals>
-            <phase>validate</phase>
-            <configuration>
-              <linkXRef>false</linkXRef>
-              <consoleOutput>true</consoleOutput>
-              <violationSeverity>warning</violationSeverity>
-              <failsOnError>true</failsOnError>
-              <maxAllowedViolations>0</maxAllowedViolations>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+    <pluginManagement>
+      <plugins>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>xml-maven-plugin</artifactId>
+          <version>1.0.2</version>
+          <executions>
+            <execution>
+              <id>verify-xml</id>
+              <goals>
+                <goal>check-format</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.7.0</version>
+          <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+            <optimize>true</optimize>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>${maven-pmd-plugin.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>${maven-checkstyle-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>checkstyle</id>
+              <goals>
+                <goal>check</goal>
+                <goal>checkstyle-aggregate</goal>
+              </goals>
+              <phase>validate</phase>
+              <configuration>
+                <linkXRef>false</linkXRef>
+                <consoleOutput>true</consoleOutput>
+                <violationSeverity>warning</violationSeverity>
+                <failsOnError>true</failsOnError>
+                <maxAllowedViolations>0</maxAllowedViolations>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire-plugin.version}</version>
         </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.1</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>prepare-agent</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>report</id>
+              <phase>test</phase>
+              <goals>
+                <goal>report</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <!-- Releases -->
+        <plugin>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>${maven-release-plugin.version}</version>
+          <configuration>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <useReleaseProfile>true</useReleaseProfile>
+            <releaseProfiles>release</releaseProfiles>
+            <tagNameFormat>v@{project.version}</tagNameFormat>
+            <goals>deploy</goals>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>${nexus-staging-maven-plugin.version}</version>
+          <extensions>true</extensions>
+          <configuration>
+            <serverId>ossrh</serverId>
+            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>${maven-enforcer-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>enforce</id>
+              <goals>
+                <goal>enforce</goal>
+              </goals>
+              <configuration>
+                <rules>
+                  <reactorModuleConvergence>
+                    <message>The reactor is not valid</message>
+                    <ignoreModuleDependencies>true</ignoreModuleDependencies>
+                  </reactorModuleConvergence>
+                  <dependencyConvergence />
+                </rules>
+                <!-- TODO: enable this -->
+                <fail>true</fail>
+                <!-- TODO: enable this -->
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <phase>post-integration-test</phase>
+              <goals>
+                <goal>jar-no-fork</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven-javadoc-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>attach-javadocs</id>
+              <phase>post-integration-test</phase>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+              <configuration>
+                <additionalparam>-Xdoclint:none</additionalparam>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>${maven-gpg-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>sign-artifacts</id>
+              <goals>
+                <goal>sign</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
       <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.7.201606060606</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>report</id>
-            <phase>test</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-        </executions>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>${maven-release-plugin.version}</version>
-        <configuration>
-          <autoVersionSubmodules>true</autoVersionSubmodules>
-          <useReleaseProfile>true</useReleaseProfile>
-          <releaseProfiles>release</releaseProfiles>
-          <tagNameFormat>v@{project.version}</tagNameFormat>
-          <goals>deploy</goals>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>${nexus-staging-maven-plugin.version}</version>
-        <extensions>true</extensions>
-        <configuration>
-          <serverId>ossrh</serverId>
-          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-          <autoReleaseAfterClose>true</autoReleaseAfterClose>
-        </configuration>
+        <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
       <plugin>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>${maven-enforcer-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>enforce</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <reactorModuleConvergence>
-                  <message>The reactor is not valid</message>
-                  <ignoreModuleDependencies>true</ignoreModuleDependencies>
-                </reactorModuleConvergence>
-                <dependencyConvergence />
-              </rules>
-              <!-- TODO: enable this -->
-              <fail>false</fail>
-              <!-- TODO: enable this -->
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>${maven-source-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>post-integration-test</phase>
-            <goals>
-              <goal>jar-no-fork</goal>
-            </goals>
-          </execution>
-        </executions>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
@@ -215,48 +287,17 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>${maven-gpg-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
           </plugin>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
-            <version>${maven-source-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>attach-sources</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>jar-no-fork</goal>
-                </goals>
-              </execution>
-            </executions>
           </plugin>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>${maven-javadoc-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-                <configuration>
-                  <additionalparam>-Xdoclint:none</additionalparam>
-                </configuration>
-              </execution>
-            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-gpg-plugin</artifactId>
           </plugin>
         </plugins>
       </build>
@@ -287,24 +328,6 @@
         <groupId>io.projectreactor</groupId>
         <artifactId>reactor-test</artifactId>
         <version>${reactor-test.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>io.gatling.highcharts</groupId>
-        <artifactId>gatling-charts-highcharts</artifactId>
-        <version>${gatling-charts-highcharts.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.hamcrest</groupId>
-        <artifactId>hamcrest-all</artifactId>
-        <version>${hamcrest-all.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.hamcrest</groupId>
-        <artifactId>hamcrest-core</artifactId>
-        <version>${hamcrest-core.version}</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
