@@ -273,10 +273,6 @@
         <artifactId>maven-enforcer-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>xml-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
       <plugin>
