@@ -37,4 +37,4 @@ Apply the configuration:
     0. Click **Import** and browse to the text file you have created in Step 1.
 
 ## verifying style
-Whatever you do, It's OK, as long as a maven build: `mvn checkstyle:check -Dcheckstyle.config.location=google_checks.xml -Dcheckstyle.skip=false` finishes successfuly
+Whatever you do, It's OK, as long as a maven build: `mvn checkstyle:check -Dcheckstyle.config.location=google_checks.xml -Dcheckstyle.skip=false` finishes successfully
