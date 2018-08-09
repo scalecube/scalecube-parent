@@ -20,7 +20,8 @@ There are plugins for [IntelliJ](https://github.com/google/google-java-format#in
 
 
 ## IntelliJ Users (that doesn't want to install the plugin for some reason) should:
-0.
+0. Download [this code style configuration](https://github.com/google/styleguide/blob/gh-pages/intellij-java-google-style.xml)
+Apply the configuration:
 
 ## Eclipse Users (that doesn't want to install the plugin for some reason) should:
 0. Download [this code style configuration](https://github.com/google/styleguide/blob/gh-pages/eclipse-java-google-style.xml)
