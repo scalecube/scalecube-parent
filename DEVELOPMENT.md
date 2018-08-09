@@ -16,7 +16,6 @@ ScaleCube project team uses [Google code style](http://google.github.io/stylegui
 The best way to go is to format your code *before pushing*
 
 You can use [google-java-format](https://github.com/google/google-java-format).
-
 There are plugins for [IntelliJ](https://github.com/google/google-java-format#intellij) and [Eclipse](https://github.com/google/google-java-format#eclipse) 
 
 
