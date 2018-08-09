@@ -19,10 +19,10 @@ You can use [google-java-format](https://github.com/google/google-java-format).
 There are plugins for [IntelliJ](https://github.com/google/google-java-format#intellij) and [Eclipse](https://github.com/google/google-java-format#eclipse) 
 
 
-##IntelliJ Users (that doesn't want to install the plugin for some reason) should:
+## IntelliJ Users (that doesn't want to install the plugin for some reason) should:
 0.
 
-##Eclipse Users (that doesn't want to install the plugin for some reason) should:
+## Eclipse Users (that doesn't want to install the plugin for some reason) should:
 0. Download [this code style configuration](https://github.com/google/styleguide/blob/gh-pages/eclipse-java-google-style.xml)
 Apply the configuration: 
 0. Opening Eclipse settings varies per OS. For example, on macOS open `Eclipse` -> `Preferences`. On Ubuntu it's `Window` -> `Preferences`
