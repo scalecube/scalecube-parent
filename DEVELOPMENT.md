@@ -30,6 +30,11 @@ Apply the configuration:
 0. In the search bar on the left, type *formatter*, and select the `Java` -> `Code Style` -> `Formatter` menu item
 0. Click **Import** and browse to the XML file you have downloaded in Step 1.
 0. Ensure the **GoogleStyle** item is selected in the **Active profile** section.
+0. The import order should be empty:
+    0. Create a simple file with a single line in it `0=\#`
+    0. Open Eclipse settings (same as above)
+    0. In the search bar on the left, type *import*, and select the `Java` -> `Code Style` -> `Organize Imports` menu item
+    0. Click **Import** and browse to the text file you have created in Step 1.
 
 ## verifying style
 Whatever you do, It's OK, as long as a maven build: `mvn checkstyle:check -Dcheckstyle.config.location=google_checks.xml -Dcheckstyle.skip=false` finishes successfuly
