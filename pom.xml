@@ -1,10 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>io.scalecube</groupId>
   <artifactId>scalecube-parent-pom</artifactId>
   <version>0.0.14-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>ScaleCube parent project</name>
+
   <description>
     ScaleCube is a lightweight decentralized cluster membership, failure detection, messaging and
     gossip protocol library for the Java VM.
@@ -17,12 +21,14 @@
       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
     </license>
   </licenses>
+
   <scm>
     <url>https://scalecube.io</url>
     <connection>scm:git:git@github.com:scalecube/scalecube-parent.git</connection>
     <developerConnection>scm:git:git@github.com:scalecube/scalecube-parent.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
+
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
@@ -33,9 +39,11 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
+
   <prerequisites>
     <maven>3.0.3</maven>
   </prerequisites>
+
   <developers>
     <developer>
       <id>scalecube.io</id>
@@ -45,6 +53,7 @@
       <organizationUrl>http://scalecube.io/</organizationUrl>
     </developer>
   </developers>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- plugins versions -->
@@ -56,9 +65,10 @@
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
     <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
     <maven-enforcer-plugin.version>3.0.0-M1</maven-enforcer-plugin.version>
-    <maven-shade-plugin.version>3.1.0</maven-shade-plugin.version>
     <maven-pmd-plugin.version>3.10.0</maven-pmd-plugin.version>
     <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
+    <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
+    <maven-dependency-plugin.version>3.1.0</maven-dependency-plugin.version>
 
     <!-- check style configuration -->
     <checkstyle.config.location>google_checks.xml</checkstyle.config.location>
@@ -68,6 +78,11 @@
     <junit-jupiter.version>5.2.0</junit-jupiter.version>
     <reactor-test.version>3.1.8.RELEASE</reactor-test.version>
 
+    <dockerfile.repository>scalecube/${project.artifactId}</dockerfile.repository>
+    <dockerfile.maven.version>1.4.4</dockerfile.maven.version>
+    <dockerfile.maven.extension.version>1.4.4</dockerfile.maven.extension.version>
+    <dockerfile.useMavenSettingsForAuth>true</dockerfile.useMavenSettingsForAuth>
+    <dockerfile.googleContainerRegistryEnabled>false</dockerfile.googleContainerRegistryEnabled>
   </properties>
 
   <reporting>
@@ -83,9 +98,42 @@
       </plugin>
     </plugins>
   </reporting>
+
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${maven-jar-plugin.version}</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addClasspath>true</addClasspath>
+                <classpathPrefix>lib/</classpathPrefix>
+                <mainClass>${mainClass}</mainClass>
+              </manifest>
+            </archive>
+            <excludes>
+              <exclude>META-INF/*.SF</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>${maven-dependency-plugin.version}</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>copy-dependencies</goal>
+              </goals>
+              <configuration>
+                <overWriteReleases>false</overWriteReleases>
+                <outputDirectory>${project.build.directory}/lib</outputDirectory>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>xml-maven-plugin</artifactId>
@@ -216,7 +264,7 @@
                     <message>The reactor is not valid</message>
                     <ignoreModuleDependencies>true</ignoreModuleDependencies>
                   </reactorModuleConvergence>
-                  <dependencyConvergence />
+                  <dependencyConvergence/>
                 </rules>
                 <!-- TODO: enable this -->
                 <fail>true</fail>
@@ -266,8 +314,61 @@
             </execution>
           </executions>
         </plugin>
+        <!-- Docker -->
+        <plugin>
+          <groupId>com.spotify</groupId>
+          <artifactId>dockerfile-maven-plugin</artifactId>
+          <version>${dockerfile.maven.version}</version>
+          <executions>
+            <execution>
+              <id>default</id>
+              <goals>
+                <goal>build</goal>
+                <goal>tag</goal>
+              </goals>
+              <configuration>
+                <buildArgs>
+                  <EXECUTABLE_JAR>${project.build.finalName}</EXECUTABLE_JAR>
+                </buildArgs>
+                <tag>latest</tag>
+                <tag>${project.version}</tag>
+              </configuration>
+            </execution>
+            <execution>
+              <id>create-extra-tags</id>
+              <goals>
+                <goal>tag</goal>
+              </goals>
+              <configuration>
+                <tag>${extratags}</tag>
+                <skipTag>${noextratags}</skipTag>
+              </configuration>
+            </execution>
+            <execution>
+              <id>deployment</id>
+              <goals>
+                <goal>push</goal>
+              </goals>
+              <configuration>
+                <tag>latest</tag>
+                <tag>${project.version}</tag>
+              </configuration>
+            </execution>
+            <execution>
+              <id>push-extra-tags</id>
+              <goals>
+                <goal>push</goal>
+              </goals>
+              <configuration>
+                <tag>${extratags}</tag>
+                <skip>${noextratags}</skip>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -291,6 +392,7 @@
       </plugin>
     </plugins>
   </build>
+
   <profiles>
     <profile>
       <id>skipstyle</id>
@@ -324,7 +426,51 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>no-extra-tags</id>
+      <properties>
+        <noextratags>true</noextratags>
+      </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+    <profile>
+      <id>extra-tags</id>
+      <properties>
+        <noextratags>false</noextratags>
+      </properties>
+      <activation>
+        <property>
+          <name>extratags</name>
+        </property>
+      </activation>
+    </profile>
+    <profile>
+      <id>SkipDockerGoals</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <dockerfile.skip>true</dockerfile.skip>
+      </properties>
+    </profile>
+    <profile>
+      <id>RunDockerGoals</id>
+      <activation>
+        <os>
+          <family>unix</family>
+        </os>
+        <file>
+          <exists>/usr/bin/docker</exists>
+        </file>
+      </activation>
+      <properties>
+        <dockerfile.skip>false</dockerfile.skip>
+      </properties>
+    </profile>
   </profiles>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -354,4 +500,5 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
 </project>
