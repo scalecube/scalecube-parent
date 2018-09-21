@@ -184,7 +184,7 @@
               </goals>
               <phase>validate</phase>
               <configuration>
-                <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                <includeTestSourceDirectory>false</includeTestSourceDirectory>
                 <linkXRef>false</linkXRef>
                 <consoleOutput>true</consoleOutput>
                 <violationSeverity>warning</violationSeverity>
