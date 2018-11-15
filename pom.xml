@@ -77,8 +77,8 @@
     <reactor-test.version>3.1.8.RELEASE</reactor-test.version>
 
     <dockerfile.repository>scalecube/${project.artifactId}</dockerfile.repository>
-    <dockerfile.maven.version>1.4.4</dockerfile.maven.version>
-    <dockerfile.maven.extension.version>1.4.4</dockerfile.maven.extension.version>
+    <dockerfile.maven.version>1.4.9</dockerfile.maven.version>
+    <dockerfile.maven.extension.version>1.4.9</dockerfile.maven.extension.version>
     <dockerfile.useMavenSettingsForAuth>true</dockerfile.useMavenSettingsForAuth>
     <dockerfile.googleContainerRegistryEnabled>false</dockerfile.googleContainerRegistryEnabled>
   </properties>
