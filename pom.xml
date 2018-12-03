@@ -266,9 +266,6 @@
                   </reactorModuleConvergence>
                   <dependencyConvergence />
                 </rules>
-                <!-- TODO: enable this -->
-                <fail>true</fail>
-                <!-- TODO: enable this -->
               </configuration>
             </execution>
           </executions>
