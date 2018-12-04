@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
@@ -83,6 +82,7 @@
     <dockerfile.maven.extension.version>1.4.9</dockerfile.maven.extension.version>
     <dockerfile.useMavenSettingsForAuth>true</dockerfile.useMavenSettingsForAuth>
     <dockerfile.googleContainerRegistryEnabled>false</dockerfile.googleContainerRegistryEnabled>
+    <reactor.bom.version>Californium-SR3</reactor.bom.version>
   </properties>
 
   <reporting>
@@ -266,9 +266,6 @@
                   </reactorModuleConvergence>
                   <dependencyConvergence />
                 </rules>
-                <!-- TODO: enable this -->
-                <fail>true</fail>
-                <!-- TODO: enable this -->
               </configuration>
             </execution>
           </executions>
@@ -473,6 +470,13 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>io.projectreactor</groupId>
+        <artifactId>reactor-bom</artifactId>
+        <version>${reactor.bom.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
       <!-- Test -->
       <dependency>
         <groupId>org.junit.jupiter</groupId>
