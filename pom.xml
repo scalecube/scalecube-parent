@@ -53,6 +53,7 @@
   </developers>
 
   <properties>
+    <ci.travis>${env.TRAVIS}</ci.travis>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- plugins versions -->
     <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -328,6 +329,7 @@
                 </buildArgs>
                 <tag>latest</tag>
                 <tag>${project.version}</tag>
+                <skip>${dockerfile.skip}</skip>
               </configuration>
             </execution>
             <execution>
@@ -348,6 +350,7 @@
               <configuration>
                 <tag>latest</tag>
                 <tag>${project.version}</tag>
+                <skipPush>${dockerfile.skip}</skipPush>
               </configuration>
             </execution>
             <execution>
@@ -357,7 +360,7 @@
               </goals>
               <configuration>
                 <tag>${extratags}</tag>
-                <skip>${noextratags}</skip>
+                <skipPush>${noextratags}</skipPush>
               </configuration>
             </execution>
           </executions>
@@ -454,12 +457,10 @@
     <profile>
       <id>RunDockerGoals</id>
       <activation>
-        <os>
-          <family>unix</family>
-        </os>
-        <file>
-          <exists>/usr/bin/docker</exists>
-        </file>
+        <property>
+          <name>ci.travis</name>
+          <value>true</value>
+        </property>
       </activation>
       <properties>
         <dockerfile.skip>false</dockerfile.skip>
