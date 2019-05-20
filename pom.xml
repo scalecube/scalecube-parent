@@ -70,7 +70,7 @@
 
     <!-- check style configuration -->
     <checkstyle.config.location>google_checks.xml</checkstyle.config.location>
-    <com.puppycrawl.tools.checkstyle-version>8.18</com.puppycrawl.tools.checkstyle-version>
+    <com.puppycrawl.tools.checkstyle-version>8.20</com.puppycrawl.tools.checkstyle-version>
 
     <dockerfile.repository>scalecube/${project.artifactId}</dockerfile.repository>
     <dockerfile.maven.version>1.4.6</dockerfile.maven.version>
