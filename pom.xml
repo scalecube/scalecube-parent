@@ -124,6 +124,7 @@
               <configuration>
                 <overWriteReleases>false</overWriteReleases>
                 <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                <silent>true</silent>
               </configuration>
             </execution>
           </executions>
@@ -282,6 +283,7 @@
               </goals>
               <configuration>
                 <additionalparam>-Xdoclint:none</additionalparam>
+                <quiet>true</quiet>
               </configuration>
             </execution>
           </executions>
