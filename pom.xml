@@ -308,7 +308,7 @@
                 <goal>jar</goal>
               </goals>
               <configuration>
-                <additionalparam>-Xdoclint:none</additionalparam>
+                <doclint>none</doclint>
                 <quiet>true</quiet>
               </configuration>
             </execution>
