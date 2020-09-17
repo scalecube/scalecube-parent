@@ -411,38 +411,6 @@
 
   <profiles>
     <profile>
-      <id>skipstyle</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-    </profile>
-    <profile>
-      <id>skippmd</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-    </profile>
-    <profile>
-      <id>no-extra-tags</id>
-      <properties>
-        <noextratags>true</noextratags>
-      </properties>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-    </profile>
-    <profile>
-      <id>extra-tags</id>
-      <properties>
-        <noextratags>false</noextratags>
-      </properties>
-      <activation>
-        <property>
-          <name>extratags</name>
-        </property>
-      </activation>
-    </profile>
-    <profile>
       <id>SkipDockerGoals</id>
       <activation>
         <activeByDefault>true</activeByDefault>
