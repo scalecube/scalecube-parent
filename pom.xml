@@ -26,7 +26,7 @@
     <repository>
       <id>github</id>
       <name>GitHub Packages</name>
-      <url>https://maven.pkg.github.com/scalecube/${project.artifactId}</url>
+      <url>https://maven.pkg.github.com/scalecube/scalecube-parent</url>
     </repository>
   </distributionManagement>
 
