@@ -42,6 +42,7 @@ jobs:
           # `tag` is the concatenation of `v` and a version by the tag convention.
           release_version=$(echo ${{ github.event.release.tag_name }} | sed "s/v//")
           echo Release version $release_version
+          git tag -d ${{ github.event.release.tag_name }}
           git push origin :refs/tags/${{ github.event.release.tag_name }}
           mvn --batch-mode release:prepare -P release \
             -Dtag=${{ github.event.release.tag_name }} \
