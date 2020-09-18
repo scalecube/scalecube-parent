@@ -48,7 +48,6 @@ jobs:
           mvn --batch-mode release:prepare -P release \
             -DreleaseVersion=$release_version \
             -DautoVersionSubmodules=true -Darguments="-DskipTests=true"
-          echo ::set-output name=release_tag::$(git describe --tags --abbrev=0)
       - name: Perform release
         run: mvn --batch-mode release:perform -P release -Darguments="-DskipTests=true -Ddocker.image.extra-tag=master"
         env:
@@ -56,10 +55,4 @@ jobs:
           GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
       - name: Rollback release
         if: failure()
-        run: |
-          mvn release:rollback || echo "nothing to rollback"
-          if [ ! -z "${{ steps.prepare_release.outputs.release_tag }}" ]
-          then
-            git tag -d ${{ steps.prepare_release.outputs.release_tag }}
-            git push origin :refs/tags/${{ steps.prepare_release.outputs.release_tag }}
-          fi
+        run: git push origin :refs/tags/${{ github.event.release.tag_name }}
