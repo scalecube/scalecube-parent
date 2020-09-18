@@ -43,8 +43,7 @@ jobs:
           release_version=$(echo ${{ github.event.release.tag_name }} | sed "s/v//")
           echo Release version $release_version
           mvn --batch-mode release:prepare -P release \
-            -DsuppressCommitBeforeTag=true \
-            -DremoteTagging=false \
+            -Dtag=${{ github.event.release.tag_name }} \
             -DreleaseVersion=$release_version \
             -DautoVersionSubmodules=true -Darguments="-DskipTests=true"
       - name: Perform release
