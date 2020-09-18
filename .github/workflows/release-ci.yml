@@ -33,8 +33,9 @@ jobs:
         run: mvn verify -B
       - name: Configure git
         run: |
-          echo "Git checkout branch ${GITHUB_REF##*/}, commit ${GITHUB_SHA} was pushed by ${GITHUB_ACTOR}"
-          git checkout ${GITHUB_REF##*/}
+          echo "github_ref=${GITHUB_REF}, github_ref_double_hashes=${GITHUB_REF##*/}, github_branch=${GITHUB_REF#refs/heads/}"
+          echo "Git checkout branch ${GITHUB_REF#refs/heads/}, commit ${GITHUB_SHA} was pushed by ${GITHUB_ACTOR}"
+          git checkout ${GITHUB_REF#refs/heads/}
           echo "Git reset hard to ${GITHUB_SHA}"
           git reset --hard ${GITHUB_SHA}
           git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
