@@ -3,7 +3,7 @@
 
   <groupId>io.scalecube</groupId>
   <artifactId>scalecube-parent-pom</artifactId>
-  <version>0.2.5-SNAPSHOT</version>
+  <version>0.2.5</version>
   <packaging>pom</packaging>
   <name>ScaleCube parent project</name>
 
@@ -33,7 +33,7 @@
     <connection>scm:git:https://github.com/scalecube/scalecube-parent.git</connection>
     <developerConnection>scm:git:https://github.com/scalecube/scalecube-parent.git
     </developerConnection>
-    <tag>v0.2.4</tag>
+    <tag>v0.2.5</tag>
   </scm>
 
   <prerequisites>
