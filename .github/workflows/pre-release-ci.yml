@@ -28,6 +28,9 @@ jobs:
           # `tag` is the concatenation of `v` and a version by the tag convention.
           pre_release_version=$(echo ${{ github.event.release.tag_name }} | sed "s/v//")
           echo Pre-release version $pre_release_version
+          mvn versions:set -DnewVersion=$pre_release_version -DgenerateBackupPoms=false
+          mvn versions:commit
+          mvn clean deploy -B -V
         env:
           GITHUB_TOKEN: ${{ secrets.ORGANIZATION_TOKEN }}
       - name: Rollback pre-release (remove tag)

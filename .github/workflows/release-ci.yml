@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
@@ -23,13 +25,41 @@ jobs:
           server-id: github
           server-username: GITHUB_ACTOR
           server-password: GITHUB_TOKEN
-      - name: Deploy release version
+      - name: Maven Build
+        run: mvn clean install -DskipTests=true -Ddockerfile.skip=true -B -V
+        env:
+          GITHUB_TOKEN: ${{ secrets.ORGANIZATION_TOKEN }}
+      - name: Maven Verify
+        run: mvn verify -B
+      - name: Configure git
+        run: |
+          echo "Git checkout branch ${GITHUB_REF##*/}, commit ${GITHUB_SHA} was pushed by ${GITHUB_ACTOR}"
+          git checkout ${GITHUB_REF##*/}
+          echo "Git reset hard to ${GITHUB_SHA}"
+          git reset --hard ${GITHUB_SHA}
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config --global user.name "${GITHUB_ACTOR}"
+      - name: Prepare release
+        id: prepare_release
         run: |
           # `tag` is the concatenation of `v` and a version by the tag convention.
           release_version=$(echo ${{ github.event.release.tag_name }} | sed "s/v//")
           echo Release version $release_version
+          mvn --batch-mode release:prepare -P release \
+            -DreleaseVersion=$release_version \
+            -DautoVersionSubmodules=true -Darguments="-DskipTests=true"
+          echo ::set-output name=release_tag::$(git describe --tags --abbrev=0)
+      - name: Perform release
+        run: mvn --batch-mode release:perform -P release -Darguments="-DskipTests=true -Ddocker.image.extra-tag=master"
         env:
-          GITHUB_TOKEN: ${{ secrets.ORGANIZATION_TOKEN }}
-      - name: Rollback release (remove tag)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+      - name: Rollback release
         if: failure()
-        run: git push origin :refs/tags/${{ github.event.release.tag_name }}
+        run: |
+          mvn release:rollback || echo "nothing to rollback"
+          if [ ! -z "${{ steps.prepare_release.outputs.release_tag }}" ]
+          then
+            git tag -d ${{ steps.prepare_release.outputs.release_tag }}
+            git push origin :refs/tags/${{ steps.prepare_release.outputs.release_tag }}
+          fi
