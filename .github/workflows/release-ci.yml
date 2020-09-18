@@ -12,6 +12,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - run: git checkout ${{ github.event.release.target_commitish }}
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
@@ -38,7 +39,6 @@ jobs:
       - name: Prepare release
         id: prepare_release
         run: |
-          echo "### github_event = ${{ toJson(github.event) }}"
           # `tag` is the concatenation of `v` and a version by the tag convention.
           release_version=$(echo ${{ github.event.release.tag_name }} | sed "s/v//")
           echo Release version $release_version
