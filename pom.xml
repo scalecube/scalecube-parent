@@ -3,7 +3,7 @@
 
   <groupId>io.scalecube</groupId>
   <artifactId>scalecube-parent-pom</artifactId>
-  <version>0.2.2-SNAPSHOT</version>
+  <version>0.2.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>ScaleCube parent project</name>
 
