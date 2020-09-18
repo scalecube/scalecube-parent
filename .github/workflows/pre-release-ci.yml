@@ -1,12 +1,12 @@
-name: Release CI
+name: Pre-release CI
 
 on:
   release:
-    types: [released]
+    types: [prereleased]
 
 jobs:
   build:
-    name: Release CI
+    name: Pre-release CI
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -23,13 +23,13 @@ jobs:
           server-id: github
           server-username: GITHUB_ACTOR
           server-password: GITHUB_TOKEN
-      - name: Deploy release version
+      - name: Deploy pre-release version
         run: |
           # `tag` is the concatenation of `v` and a version by the tag convention.
-          release_version=$(echo ${{ github.event.release.tag_name }} | sed "s/v//")
-          echo Release version $release_version
+          pre_release_version=$(echo ${{ github.event.release.tag_name }} | sed "s/v//")
+          echo Pre-release version $pre_release_version
         env:
           GITHUB_TOKEN: ${{ secrets.ORGANIZATION_TOKEN }}
-      - name: Rollback release (remove tag)
+      - name: Rollback pre-release (remove tag)
         if: failure()
         run: git push origin :refs/tags/${{ github.event.release.tag_name }}
