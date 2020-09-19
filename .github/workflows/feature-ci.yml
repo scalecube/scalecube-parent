@@ -6,7 +6,6 @@ on:
       - '.github/workflows/**'
       - 'README.md'
     branches-ignore:
-      - 'master'
       - 'release*'
 
 jobs:
