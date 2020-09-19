@@ -2,7 +2,7 @@ name: Release CI
 
 on:
   release:
-    types: [published]
+    types: [released]
 
 jobs:
   build:
@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - run: git checkout ${{ github.event.release.target_commitish }}
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
@@ -23,16 +26,34 @@ jobs:
           server-id: github
           server-username: GITHUB_ACTOR
           server-password: GITHUB_TOKEN
-      - name: Deploy release version
+      - name: Maven Build
+        run: mvn clean install -DskipTests=true -Ddockerfile.skip=true -B -V
+        env:
+          GITHUB_TOKEN: ${{ secrets.ORGANIZATION_TOKEN }}
+      - name: Maven Verify
+        run: mvn verify -B
+      - name: Configure git
+        run: |
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config --global user.name "${GITHUB_ACTOR}"
+      - name: Prepare release
+        id: prepare_release
         run: |
           # `tag` is the concatenation of `v` and a version by the tag convention.
           release_version=$(echo ${{ github.event.release.tag_name }} | sed "s/v//")
           echo Release version $release_version
-          mvn versions:set -DnewVersion=$release_version -DgenerateBackupPoms=false
-          mvn versions:commit
-          mvn clean deploy -B -V
+          git tag -d ${{ github.event.release.tag_name }}
+          git push origin :refs/tags/${{ github.event.release.tag_name }}
+          mvn --batch-mode release:prepare -P release \
+            -DreleaseVersion=$release_version \
+            -DautoVersionSubmodules=true -Darguments="-DskipTests=true"
+      - name: Perform release
+        run: mvn --batch-mode release:perform -P release -Darguments="-DskipTests=true -Ddocker.image.extra-tag=master"
         env:
-          GITHUB_TOKEN: ${{ secrets.ORGANIZATION_TOKEN }}
-      - name: Rollback release (remove tag)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+      - name: Rollback release
         if: failure()
-        run: git push origin :refs/tags/${{ github.event.release.tag_name }}
+        run: |
+          git push origin :refs/tags/${{ github.event.release.tag_name }}
+          mvn release:rollback
