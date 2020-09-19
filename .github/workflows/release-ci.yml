@@ -45,7 +45,6 @@ jobs:
           git tag -d ${{ github.event.release.tag_name }}
           git push origin :refs/tags/${{ github.event.release.tag_name }}
           mvn --batch-mode release:prepare -P release \
-            -Dtag=${{ github.event.release.tag_name }} \
             -DreleaseVersion=$release_version \
             -DautoVersionSubmodules=true -Darguments="-DskipTests=true"
       - name: Perform release
@@ -55,4 +54,6 @@ jobs:
           GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
       - name: Rollback release
         if: failure()
-        run: git push origin :refs/tags/${{ github.event.release.tag_name }}
+        run: |
+          git push origin :refs/tags/${{ github.event.release.tag_name }}
+          mvn release:rollback
