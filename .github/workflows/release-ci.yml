@@ -55,5 +55,5 @@ jobs:
       - name: Rollback release
         if: failure()
         run: |
+          mvn release:rollback || echo "nothing to rollback"
           git push origin :refs/tags/${{ github.event.release.tag_name }}
-          mvn release:rollback
