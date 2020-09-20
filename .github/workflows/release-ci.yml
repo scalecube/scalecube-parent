@@ -40,16 +40,14 @@ jobs:
       - name: Prepare release
         id: prepare_release
         run: |
-          # `tag` is the concatenation of `v` and a version by the tag convention.
-          release_version=$(echo ${{ github.event.release.tag_name }} | sed "s/v//")
+          # `tag` is the concatenation of `prepare-` and a version by the tag convention.
+          release_version=$(echo ${{ github.event.release.tag_name }} | sed "s/prepare-//")
           echo Release version $release_version
-          git tag -d ${{ github.event.release.tag_name }}
-          git push origin :refs/tags/${{ github.event.release.tag_name }}
-          mvn --batch-mode release:prepare -P release \
+          mvn -B release:prepare \
             -DreleaseVersion=$release_version \
             -DautoVersionSubmodules=true -Darguments="-DskipTests=true"
       - name: Perform release
-        run: mvn --batch-mode release:perform -P release -Darguments="-DskipTests=true -Ddocker.image.extra-tag=master"
+        run: mvn -B release:perform -Darguments="-DskipTests=true -Ddocker.image.extra-tag=master"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
@@ -58,3 +56,4 @@ jobs:
         run: |
           mvn release:rollback || echo "nothing to rollback"
           git push origin :refs/tags/${{ github.event.release.tag_name }}
+          git push origin :refs/tags/v$release_version
