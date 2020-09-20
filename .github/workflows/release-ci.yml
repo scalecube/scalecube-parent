@@ -47,7 +47,7 @@ jobs:
             -DautoVersionSubmodules=true -Darguments="-DskipTests=true"
           echo ::set-output name=release_tag::$(git describe --tags --abbrev=0)
       - name: Perform release
-        run: mvn -B release:perform -Darguments="-DskipTests=true -Ddocker.image.extra-tag=master"
+        run: mvn -B release:perform -Darguments="-DskipTests=true -Ddockerfile.skip=true"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
@@ -58,5 +58,6 @@ jobs:
           git push origin :refs/tags/${{ github.event.release.tag_name }}
           if [ ! -z "${{ steps.prepare_release.outputs.release_tag }}" ]
           then
+            git tag -d ${{ steps.prepare_release.outputs.release_tag }}
             git push origin :refs/tags/${{ steps.prepare_release.outputs.release_tag }}
           fi
