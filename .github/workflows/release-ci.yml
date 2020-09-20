@@ -39,11 +39,8 @@ jobs:
       - name: Prepare release
         id: prepare_release
         run: |
-          # `tag` is the concatenation of `prepare-` and a version by the tag convention.
-          release_version=$(echo ${{ github.event.release.tag_name }} | sed "s/prepare-//")
-          echo Release version $release_version
-          mvn -B release:prepare \
-            -DreleaseVersion=$release_version \
+          mvn -B build-helper:parse-version release:prepare \
+            -DreleaseVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion} \
             -DautoVersionSubmodules=true -Darguments="-DskipTests=true"
           echo ::set-output name=release_tag::$(git describe --tags --abbrev=0)
       - name: Perform release
