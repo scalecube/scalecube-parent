@@ -42,10 +42,10 @@ jobs:
           # `tag` is the concatenation of `prepare-` and a version by the tag convention.
           release_version=$(echo ${{ github.event.release.tag_name }} | sed "s/prepare-//")
           echo Release version $release_version
-          echo ::set-output name=release_tag::0.2.10
           mvn -B release:prepare \
             -DreleaseVersion=0.2.10 \
             -DautoVersionSubmodules=true -Darguments="-DskipTests=true"
+          echo ::set-output name=release_tag::v0.2.10
       - name: Perform release
         run: mvn -B release:perform -Darguments="-DskipTests=true -Ddocker.image.extra-tag=master"
         env:
@@ -56,4 +56,7 @@ jobs:
         run: |
           mvn release:rollback || echo "nothing to rollback"
           git push origin :refs/tags/${{ github.event.release.tag_name }}
-          git push origin :refs/tags/v${{ steps.prepare_release.outputs.release_tag }}
+          if [ ! -z "${{ steps.prepare_release.outputs.release_tag }}" ]
+          then
+            git push origin :refs/tags/${{ steps.prepare_release.outputs.release_tag }}
+          fi
