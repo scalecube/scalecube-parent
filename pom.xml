@@ -198,7 +198,7 @@
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <useReleaseProfile>true</useReleaseProfile>
             <releaseProfiles>release</releaseProfiles>
-            <tagNameFormat>@{project.artifactId}/@{project.version}</tagNameFormat>
+            <tagNameFormat>release-@{project.version}</tagNameFormat>
             <goals>deploy</goals>
             <username>${env.GITHUB_ACTOR}</username>
             <password>${env.GITHUB_TOKEN}</password>
