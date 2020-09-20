@@ -44,7 +44,7 @@ jobs:
           release_version=$(echo ${{ github.event.release.tag_name }} | sed "s/prepare-//")
           echo Release version $release_version
           mvn -B release:prepare \
-            -DreleaseVersion=$release_version \
+            -DreleaseVersion=0.2.10 \
             -DautoVersionSubmodules=true -Darguments="-DskipTests=true"
       - name: Perform release
         run: mvn -B release:perform -Darguments="-DskipTests=true -Ddocker.image.extra-tag=master"
