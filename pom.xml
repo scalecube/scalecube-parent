@@ -278,6 +278,9 @@
         <plugin>
           <artifactId>maven-gpg-plugin</artifactId>
           <version>${maven-gpg-plugin.version}</version>
+          <configuration>
+            <useAgent>false</useAgent>
+          </configuration>
           <executions>
             <execution>
               <id>sign-artifacts</id>
