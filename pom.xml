@@ -20,14 +20,6 @@
     </license>
   </licenses>
 
-  <distributionManagement>
-    <repository>
-      <id>github</id>
-      <name>GitHub Packages</name>
-      <url>https://maven.pkg.github.com/scalecube/scalecube-parent</url>
-    </repository>
-  </distributionManagement>
-
   <scm>
     <url>https://scalecube.io</url>
     <connection>scm:git:https://github.com/scalecube/scalecube-parent.git</connection>
@@ -395,6 +387,26 @@
       <properties>
         <dockerfile.skip>false</dockerfile.skip>
       </properties>
+    </profile>
+    <profile>
+      <id>deploy2Github</id>
+      <distributionManagement>
+        <repository>
+          <id>github</id>
+          <name>GitHub Packages</name>
+          <url>https://maven.pkg.github.com/scalecube/scalecube-parent</url>
+        </repository>
+      </distributionManagement>
+    </profile>
+    <profile>
+      <id>deploy2Maven</id>
+      <distributionManagement>
+        <repository>
+          <id>ossrh</id>
+          <name>Central Repository OSSRH</name>
+          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+      </distributionManagement>
     </profile>
   </profiles>
 
