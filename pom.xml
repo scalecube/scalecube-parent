@@ -275,6 +275,18 @@
             </execution>
           </executions>
         </plugin>
+        <plugin>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>${maven-gpg-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>sign-artifacts</id>
+              <goals>
+                <goal>sign</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
         <!-- Docker -->
         <plugin>
           <groupId>com.spotify</groupId>
@@ -415,6 +427,9 @@
     </profile>
     <profile>
       <id>deploy2Maven</id>
+      <properties>
+        <gpg.passphrase>${env.MAVEN_GPG_PASSPHRASE}</gpg.passphrase>
+      </properties>
       <distributionManagement>
         <repository>
           <id>ossrh</id>
@@ -427,6 +442,9 @@
           <plugin>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>nexus-staging-maven-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <artifactId>maven-gpg-plugin</artifactId>
           </plugin>
         </plugins>
       </build>
