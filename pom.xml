@@ -427,9 +427,9 @@
     </profile>
     <profile>
       <id>deploy2Maven</id>
-      <properties>
-        <gpg.passphrase>${env.MAVEN_GPG_PASSPHRASE}</gpg.passphrase>
-      </properties>
+      <!--      <properties>-->
+      <!--        <gpg.passphrase>${env.MAVEN_GPG_PASSPHRASE}</gpg.passphrase>-->
+      <!--      </properties>-->
       <distributionManagement>
         <repository>
           <id>ossrh</id>
