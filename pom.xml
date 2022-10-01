@@ -1,8 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.scalecube</groupId>
-  <artifactId>scalecube-parent-pom</artifactId>
+  <artifactId>scalecube-parent</artifactId>
   <version>0.2.20-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>ScaleCube parent project</name>
@@ -22,8 +24,8 @@
 
   <scm>
     <url>https://scalecube.io</url>
-    <connection>scm:git:https://github.com/scalecube/scalecube-parent.git</connection>
-    <developerConnection>scm:git:https://github.com/scalecube/scalecube-parent.git
+    <connection>scm:git:https://github.com/scalecube/${project.artifactId}.git</connection>
+    <developerConnection>scm:git:https://github.com/scalecube/${project.artifactId}.git
     </developerConnection>
     <tag>HEAD</tag>
   </scm>
@@ -43,7 +45,6 @@
   </developers>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- plugins versions -->
     <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
@@ -57,18 +58,16 @@
     <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
-
-    <!-- check style configuration -->
-    <checkstyle.config.location>google_checks.xml</checkstyle.config.location>
     <com.puppycrawl.tools.checkstyle-version>8.14</com.puppycrawl.tools.checkstyle-version>
 
-    <dockerfile.repository>scalecube/${project.artifactId}</dockerfile.repository>
-    <dockerfile.maven.version>1.4.13</dockerfile.maven.version>
-    <dockerfile.maven.extension.version>1.4.6</dockerfile.maven.extension.version>
-    <dockerfile.useMavenSettingsForAuth>true</dockerfile.useMavenSettingsForAuth>
-    <dockerfile.googleContainerRegistryEnabled>false</dockerfile.googleContainerRegistryEnabled>
+    <!-- check style configuration -->
+    <checkstyle.skip>false</checkstyle.skip>
+    <checkstyle.config.location>google_checks.xml</checkstyle.config.location>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <github.repository>${env.GITHUB_REPOSITORY}</github.repository>
+    <distributionManagement.url>https://maven.pkg.github.com/scalecube/${project.artifactId}
+    </distributionManagement.url>
   </properties>
 
   <reporting>
@@ -95,39 +94,6 @@
           <configuration>
             <generateBackupPoms>false</generateBackupPoms>
           </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>${maven-jar-plugin.version}</version>
-          <configuration>
-            <archive>
-              <manifest>
-                <addClasspath>true</addClasspath>
-                <classpathPrefix>lib/</classpathPrefix>
-                <mainClass>${mainClass}</mainClass>
-              </manifest>
-            </archive>
-            <excludes>
-              <exclude>META-INF/*.SF</exclude>
-            </excludes>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>${maven-dependency-plugin.version}</version>
-          <executions>
-            <execution>
-              <phase>package</phase>
-              <goals>
-                <goal>copy-dependencies</goal>
-              </goals>
-              <configuration>
-                <overWriteReleases>false</overWriteReleases>
-                <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                <silent>true</silent>
-              </configuration>
-            </execution>
-          </executions>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -222,7 +188,7 @@
                     <message>The reactor is not valid</message>
                     <ignoreModuleDependencies>true</ignoreModuleDependencies>
                   </reactorModuleConvergence>
-                  <dependencyConvergence />
+                  <dependencyConvergence/>
                 </rules>
               </configuration>
             </execution>
@@ -289,87 +255,6 @@
             </execution>
           </executions>
         </plugin>
-        <!-- Docker -->
-        <plugin>
-          <groupId>com.spotify</groupId>
-          <artifactId>dockerfile-maven-plugin</artifactId>
-          <version>${dockerfile.maven.version}</version>
-          <executions>
-            <execution>
-              <id>default</id>
-              <goals>
-                <goal>build</goal>
-              </goals>
-              <phase>install</phase>
-              <configuration>
-                <buildArgs>
-                  <EXECUTABLE_JAR>${project.build.finalName}</EXECUTABLE_JAR>
-                  <SERVICE_NAME>${project.artifactId}</SERVICE_NAME>
-                  <SERVICE_VERSION>${project.version}</SERVICE_VERSION>
-                </buildArgs>
-                <tag>latest</tag>
-              </configuration>
-            </execution>
-            <execution>
-              <id>extra-tag</id>
-              <goals>
-                <goal>tag</goal>
-              </goals>
-              <phase>install</phase>
-              <configuration>
-                <tag>${docker.image.extra-tag}</tag>
-              </configuration>
-            </execution>
-            <execution>
-              <id>push-extra-tags</id>
-              <goals>
-                <goal>push</goal>
-              </goals>
-              <phase>deploy</phase>
-              <configuration>
-                <tag>${docker.image.extra-tag}</tag>
-              </configuration>
-            </execution>
-            <execution>
-              <id>tag-version</id>
-              <goals>
-                <goal>tag</goal>
-              </goals>
-              <phase>install</phase>
-              <configuration>
-                <tag>${docker.image.tag}</tag>
-              </configuration>
-            </execution>
-            <execution>
-              <id>deployment</id>
-              <goals>
-                <goal>push</goal>
-              </goals>
-              <phase>deploy</phase>
-              <configuration>
-                <tag>latest</tag>
-              </configuration>
-            </execution>
-            <execution>
-              <id>tag-deployment</id>
-              <goals>
-                <goal>push</goal>
-              </goals>
-              <phase>deploy</phase>
-              <configuration>
-                <tag>${docker.image.tag}</tag>
-              </configuration>
-            </execution>
-          </executions>
-          <configuration>
-            <repository>docker.pkg.github.com/${github.repository}/${project.artifactId}
-            </repository>
-            <username>${env.GITHUB_ACTOR}</username>
-            <password>${env.GITHUB_TOKEN}</password>
-            <googleContainerRegistryEnabled>false</googleContainerRegistryEnabled>
-            <skipDockerInfo>true</skipDockerInfo>
-          </configuration>
-        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -395,35 +280,12 @@
 
   <profiles>
     <profile>
-      <id>SkipDockerGoals</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <dockerfile.skip>true</dockerfile.skip>
-      </properties>
-    </profile>
-    <profile>
-      <id>RunDockerGoals</id>
-      <activation>
-        <os>
-          <family>unix</family>
-        </os>
-        <file>
-          <exists>/usr/bin/docker</exists>
-        </file>
-      </activation>
-      <properties>
-        <dockerfile.skip>false</dockerfile.skip>
-      </properties>
-    </profile>
-    <profile>
       <id>deploy2Github</id>
       <distributionManagement>
         <repository>
           <id>github</id>
           <name>GitHub Packages</name>
-          <url>https://maven.pkg.github.com/scalecube/scalecube-parent</url>
+          <url>${distributionManagement.url}</url>
         </repository>
       </distributionManagement>
     </profile>
