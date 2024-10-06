@@ -25,6 +25,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 17
+          distribution: zulu
           server-id: github
           server-username: GITHUB_ACTOR
           server-password: GITHUB_TOKEN
