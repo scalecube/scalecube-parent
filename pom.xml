@@ -113,6 +113,7 @@
           <version>${maven-compiler-plugin.version}</version>
           <configuration>
             <release>17</release>
+            <source>17</source>
           </configuration>
         </plugin>
         <plugin>
