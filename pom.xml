@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.scalecube</groupId>
@@ -111,6 +113,8 @@
           <version>${maven-compiler-plugin.version}</version>
           <configuration>
             <release>17</release>
+            <source>17</source>
+            <target>17</target>
           </configuration>
         </plugin>
         <plugin>
@@ -184,7 +188,7 @@
                     <message>The reactor is not valid</message>
                     <ignoreModuleDependencies>true</ignoreModuleDependencies>
                   </reactorModuleConvergence>
-                  <dependencyConvergence />
+                  <dependencyConvergence/>
                 </rules>
               </configuration>
             </execution>
