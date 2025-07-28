@@ -54,7 +54,7 @@ jobs:
         with:
           java-version: 17
           distribution: zulu
-          server-id: sonatype-central
+          server-id: maven-central
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
@@ -67,8 +67,8 @@ jobs:
           mvn versions:commit
           mvn deploy -Pdeploy2Maven -DskipTests -B -V
         env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          MAVEN_USERNAME: ${{ secrets.SONATYPE_CENTRAL_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.SONATYPE_CENTRAL_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
       - name: Rollback release
         if: failure()

@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.scalecube</groupId>
@@ -174,7 +176,7 @@
                     <message>The reactor is not valid</message>
                     <ignoreModuleDependencies>true</ignoreModuleDependencies>
                   </reactorModuleConvergence>
-                  <dependencyConvergence />
+                  <dependencyConvergence/>
                 </rules>
               </configuration>
             </execution>
@@ -247,7 +249,7 @@
           <version>0.8.0</version>
           <extensions>true</extensions>
           <configuration>
-            <publishingServerId>sonatype-central</publishingServerId>
+            <publishingServerId>maven-central</publishingServerId>
           </configuration>
         </plugin>
       </plugins>
@@ -288,7 +290,7 @@
       <id>deploy2Maven</id>
       <distributionManagement>
         <repository>
-          <id>sonatype-central</id>
+          <id>maven-central</id>
           <name>Sonatype Central Publisher</name>
           <url>https://central.sonatype.com/api/v1/publish/maven</url>
         </repository>
