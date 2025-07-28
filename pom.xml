@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.scalecube</groupId>
@@ -56,6 +58,7 @@
     <versions-maven-plugin.version>2.17.1</versions-maven-plugin.version>
     <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
     <com.puppycrawl.tools.checkstyle-version>10.12.4</com.puppycrawl.tools.checkstyle-version>
+    <central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
 
     <!-- check style configuration -->
     <checkstyle.skip>false</checkstyle.skip>
@@ -174,7 +177,7 @@
                     <message>The reactor is not valid</message>
                     <ignoreModuleDependencies>true</ignoreModuleDependencies>
                   </reactorModuleConvergence>
-                  <dependencyConvergence />
+                  <dependencyConvergence/>
                 </rules>
               </configuration>
             </execution>
@@ -244,10 +247,12 @@
         <plugin>
           <groupId>org.sonatype.central</groupId>
           <artifactId>central-publishing-maven-plugin</artifactId>
-          <version>0.8.0</version>
+          <version>${central-publishing-maven-plugin.version}</version>
           <extensions>true</extensions>
           <configuration>
             <publishingServerId>maven-central</publishingServerId>
+            <autoPublish>true</autoPublish>
+            <waitUntil>published</waitUntil>
           </configuration>
         </plugin>
       </plugins>
@@ -290,7 +295,7 @@
         <repository>
           <id>maven-central</id>
           <name>Sonatype Central Publisher</name>
-          <url>https://central.sonatype.com/api/v1/publish/maven</url>
+          <url>https://central.sonatype.com</url>
         </repository>
       </distributionManagement>
       <build>
