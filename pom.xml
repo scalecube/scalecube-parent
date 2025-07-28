@@ -247,8 +247,7 @@
           <version>0.8.0</version>
           <extensions>true</extensions>
           <configuration>
-            <publishingServerId>ossrh</publishingServerId>
-            <!-- Optionally: autoPublish, waitForPublishCompletion, checksums, etc. -->
+            <publishingServerId>sonatype-central</publishingServerId>
           </configuration>
         </plugin>
       </plugins>
@@ -289,7 +288,7 @@
       <id>deploy2Maven</id>
       <distributionManagement>
         <repository>
-          <id>central-publisher</id>
+          <id>sonatype-central</id>
           <name>Sonatype Central Publisher</name>
           <url>https://central.sonatype.com/api/v1/publish/maven</url>
         </repository>
