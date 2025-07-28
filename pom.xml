@@ -248,7 +248,7 @@
           <version>${central-publishing-maven-plugin.version}</version>
           <extensions>true</extensions>
           <configuration>
-            <publishingServerId>maven-central</publishingServerId>
+            <publishingServerId>central</publishingServerId>
             <autoPublish>true</autoPublish>
             <waitUntil>published</waitUntil>
           </configuration>
@@ -291,9 +291,9 @@
       <id>deploy2Maven</id>
       <distributionManagement>
         <repository>
-          <id>maven-central</id>
+          <id>central</id>
           <name>Sonatype Central Publisher</name>
-          <url>https://central.sonatype.com</url>
+          <url>https://central.sonatype.com/api/v1/publisher/upload</url>
         </repository>
       </distributionManagement>
       <build>
