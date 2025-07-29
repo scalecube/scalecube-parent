@@ -5,7 +5,7 @@
 
   <groupId>io.scalecube</groupId>
   <artifactId>scalecube-parent</artifactId>
-  <version>0.3.2-SNAPSHOT</version>
+  <version>0.3.11-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>ScaleCube parent project</name>
 
@@ -156,8 +156,6 @@
           <version>${maven-release-plugin.version}</version>
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
-            <useReleaseProfile>true</useReleaseProfile>
-            <releaseProfiles>release</releaseProfiles>
             <tagNameFormat>release-@{project.version}</tagNameFormat>
             <goals>deploy</goals>
           </configuration>
