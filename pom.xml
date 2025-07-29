@@ -30,10 +30,6 @@
     <tag>HEAD</tag>
   </scm>
 
-  <prerequisites>
-    <maven>3.3.9</maven>
-  </prerequisites>
-
   <developers>
     <developer>
       <id>scalecube.io</id>
@@ -50,6 +46,7 @@
     <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
     <maven-javadoc-plugin.version>3.6.0</maven-javadoc-plugin.version>
     <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
+    <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
     <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
     <maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
     <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
@@ -150,7 +147,10 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire-plugin.version}</version>
         </plugin>
-        <!-- Releases -->
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven-deploy-plugin.version}</version>
+        </plugin>
         <plugin>
           <artifactId>maven-release-plugin</artifactId>
           <version>${maven-release-plugin.version}</version>
@@ -178,19 +178,6 @@
                     <ignoreModuleDependencies>true</ignoreModuleDependencies>
                   </reactorModuleConvergence>
                   <dependencyConvergence/>
-                </rules>
-              </configuration>
-            </execution>
-            <execution>
-              <id>enforce-maven</id>
-              <goals>
-                <goal>enforce</goal>
-              </goals>
-              <configuration>
-                <rules>
-                  <requireMavenVersion>
-                    <version>[3.3.9,)</version>
-                  </requireMavenVersion>
                 </rules>
               </configuration>
             </execution>
