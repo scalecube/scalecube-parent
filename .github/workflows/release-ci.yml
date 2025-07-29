@@ -44,7 +44,7 @@ jobs:
             -DreleaseVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion} \
             -Darguments="-DskipTests=true"
           echo release_tag=$(git describe --tags --abbrev=0) >> $GITHUB_OUTPUT
-      - name: Perform release
+      - name: Perform release to GitHub Packages
         run: mvn -B release:perform -Pdeploy2Github -Darguments="-DskipTests=true -Pdeploy2Github"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -59,7 +59,7 @@ jobs:
           server-password: MAVEN_PASSWORD
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
-      - name: Deploy release version to the Maven Central Repository
+      - name: Deploy release version to Maven Central Repository
         run: |
           release_version=$(echo ${{ steps.prepare_release.outputs.release_tag }} | sed "s/release-//")
           echo release version $release_version
