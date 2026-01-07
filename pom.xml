@@ -59,7 +59,7 @@
     <!-- BOM dependency versions for runtime -->
     <aeron.version>1.49.3</aeron.version>
     <agrona.version>2.4.0</agrona.version>
-    <sbe.version>1.35.6</sbe.version>
+    <sbe.version>1.37.0</sbe.version>
     <netty.version>4.2.9.Final</netty.version>
     <rsocket.version>1.1.5</rsocket.version>
     <jackson.version>2.19.2</jackson.version>
