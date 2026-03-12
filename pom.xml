@@ -220,15 +220,6 @@
         <scope>import</scope>
       </dependency>
 
-      <!-- AssertJ -->
-      <dependency>
-        <groupId>org.assertj</groupId>
-        <artifactId>assertj-bom</artifactId>
-        <version>${assertj.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-
       <!-- Mockito -->
       <dependency>
         <groupId>org.mockito</groupId>
@@ -250,13 +241,6 @@
             <artifactId>*</artifactId>
           </exclusion>
         </exclusions>
-      </dependency>
-
-      <!-- Hamcrest -->
-      <dependency>
-        <groupId>org.hamcrest</groupId>
-        <artifactId>hamcrest-all</artifactId>
-        <version>${hamcrest.version}</version>
       </dependency>
 
       <!-- Testcontainers -->
