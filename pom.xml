@@ -60,9 +60,9 @@
     <aeron.version>1.49.3</aeron.version>
     <agrona.version>2.4.0</agrona.version>
     <sbe.version>1.37.0</sbe.version>
-    <netty.version>4.2.9.Final</netty.version>
+    <netty.version>4.2.13.Final</netty.version>
     <rsocket.version>1.1.5</rsocket.version>
-    <jackson.version>2.19.2</jackson.version>
+    <jackson.version>2.21.3</jackson.version>
     <reactor.version>2024.0.8</reactor.version>
     <slf4j.version>1.7.36</slf4j.version>
     <log4j.version>2.25.3</log4j.version>
@@ -76,7 +76,7 @@
     <junit.version>5.14.1</junit.version>
     <mockito.version>5.20.0</mockito.version>
     <mockito-inline.version>5.2.0</mockito-inline.version>
-    <testcontainers.version>2.0.2</testcontainers.version>
+    <testcontainers.version>2.0.5</testcontainers.version>
     <guava.version>33.3.0-jre</guava.version>
 
     <!-- check style configuration -->
