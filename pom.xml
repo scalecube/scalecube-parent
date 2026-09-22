@@ -40,7 +40,7 @@
 
   <properties>
     <!-- plugins versions -->
-    <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
+    <maven-compiler-plugin.version>3.16.0</maven-compiler-plugin.version>
     <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
     <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
     <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
@@ -49,7 +49,7 @@
     <maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
     <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
     <maven-jar-plugin.version>3.5.0</maven-jar-plugin.version>
-    <maven-dependency-plugin.version>3.9.0</maven-dependency-plugin.version>
+    <maven-dependency-plugin.version>3.11.0</maven-dependency-plugin.version>
     <versions-maven-plugin.version>2.20.1</versions-maven-plugin.version>
     <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
     <xml-maven-plugin.version>1.2.0</xml-maven-plugin.version>
@@ -57,16 +57,16 @@
     <central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
 
     <!-- BOM dependency versions for runtime -->
-    <aeron.version>1.52.2</aeron.version>
+    <aeron.version>1.52.3</aeron.version>
     <agrona.version>2.5.0</agrona.version>
     <sbe.version>1.39.0</sbe.version>
-    <netty.version>4.2.17.Final</netty.version>
+    <netty.version>4.2.18.Final</netty.version>
     <rsocket.version>1.1.5</rsocket.version>
-    <jackson.version>2.22.1</jackson.version>
+    <jackson.version>2.22.2</jackson.version>
     <reactor.version>2024.0.8</reactor.version>
     <slf4j.version>1.7.36</slf4j.version>
     <log4j.version>2.25.3</log4j.version>
-    <byte-buddy.version>1.18.11</byte-buddy.version>
+    <byte-buddy.version>1.18.14</byte-buddy.version>
     <hdrhistogram.version>2.1.12</hdrhistogram.version>
     <jmh.version>1.37</jmh.version>
     <vault-java-driver.version>5.1.0</vault-java-driver.version>
@@ -470,6 +470,7 @@
             -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
             --add-exports java.base/jdk.internal.misc=ALL-UNNAMED
             --add-exports java.base/sun.nio.ch=ALL-UNNAMED
+            --enable-native-access=ALL-UNNAMED
           </argLine>
         </configuration>
       </plugin>
