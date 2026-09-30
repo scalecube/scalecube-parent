@@ -335,12 +335,10 @@
               <id>checkstyle</id>
               <goals>
                 <goal>check</goal>
-                <goal>checkstyle-aggregate</goal>
               </goals>
               <phase>validate</phase>
               <configuration>
                 <includeTestSourceDirectory>false</includeTestSourceDirectory>
-                <linkXRef>false</linkXRef>
                 <consoleOutput>true</consoleOutput>
                 <violationSeverity>warning</violationSeverity>
                 <failsOnError>true</failsOnError>
